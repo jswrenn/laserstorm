@@ -1,0 +1,15 @@
+[package]
+name = "laserstorm"
+version = "0.1.0"
+authors = ["Jack Wrenn <me@jswrenn.com>"]
+
+[dependencies]
+specs = "*"
+serde = "1.0"
+serde_json = "1.0"
+serde_derive = "1.0"
+ncollide="0.13"
+
+[dependencies.nalgebra]
+version="0.13"
+features=["serde-serialize"]
