@@ -59,7 +59,10 @@ fn main() {
         nalgebra::Isometry::from_parts(
           nalgebra::Translation2::from_vector(nalgebra::Vector2::new(500., 500.)),
           nalgebra::UnitComplex::new(0.))))
-    .with(components::Velocity(nalgebra::Vector2::new(10., 10.)))
+    .with(components::Velocity(
+        nalgebra::Isometry::from_parts(
+          nalgebra::Translation2::from_vector(nalgebra::Vector2::new(500., 500.)),
+          nalgebra::UnitComplex::new(0.))))
     .with(components::Acceleration(nalgebra::Vector2::new(0., 9.8)))
     .build();
 
