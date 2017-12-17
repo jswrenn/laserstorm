@@ -44,6 +44,8 @@ fn main() {
   world.register::<components::Position>();
   world.register::<components::Velocity>();
   world.register::<components::Acceleration>();
+  world.register::<components::Force>();
+  world.register::<components::Mass>();
   world.register::<components::Identity>();
 
   world.add_resource(None::<Instant>);
@@ -59,6 +61,8 @@ fn main() {
           nalgebra::UnitComplex::new(0.))))
     .with(components::Velocity(nalgebra::Vector2::new(10., 10.)))
     .with(components::Acceleration(nalgebra::Vector2::new(0., 9.8)))
+    .with(components::Force(nalgebra::Vector2::new(0., 50.)))
+    .with(components::Mass(10.))
     .build();
 
   let mut dispatcher = DispatcherBuilder::new()
