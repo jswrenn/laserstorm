@@ -1,12 +1,9 @@
 use nalgebra::geometry::Isometry2;
 use specs::{Component, VecStorage};
 
-#[derive(Clone, Copy, Debug)]
-pub struct Position(Isometry2<f64>);
-
-impl Component for Position {
-  type Storage = VecStorage<Self>;
-}
+#[derive(Component, Clone, Debug)]
+#[component(VecStorage)]
+pub struct Position(pub Isometry2<f64>);
 
 impl ::std::ops::Deref for Position {
   type Target = Isometry2<f64>;

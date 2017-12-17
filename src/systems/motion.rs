@@ -1,19 +1,36 @@
-use ::components::{Position, Velocity};
-use specs::{System, Join, ReadStorage, WriteStorage};
+use ::components::{Identity, Position, Velocity, Acceleration};
+use specs::{FetchMut, System, ParJoin, ReadStorage, WriteStorage};
 use nalgebra::geometry::Translation2;
-
-const TIMESTEP : f64 = 0.016;
+use std::time::{Duration, Instant};
+use rayon::iter::ParallelIterator;
 
 pub struct Motion;
 
 impl<'a> System<'a> for Motion {
   type SystemData =
-    ( WriteStorage<'a, Position>
-    , ReadStorage<'a,  Velocity> );
+    ( FetchMut<'a, Option<Instant>>
+    , ReadStorage<'a,  Identity>
+    , ReadStorage<'a,  Acceleration>
+    , WriteStorage<'a, Velocity>
+    , WriteStorage<'a, Position>);
 
-  fn run(&mut self, (mut positions, velocities): Self::SystemData) {
-    for (mut position, &velocity) in (&mut positions, &velocities).join() {
-      **position *= Translation2::from_vector(*velocity * TIMESTEP);
-    }
+  fn run(&mut self, ( mut last_update
+                    , identities
+                    , accelerations
+                    , mut velocities
+                    , mut positions) : Self::SystemData)
+  {
+    let now   = Instant::now();
+    let delta = last_update.map(|time|
+      { let duration = now.duration_since(time);
+        duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9
+      }).unwrap_or(0.);
+
+    (&identities, &accelerations, &mut velocities, &mut positions).par_join()
+      .for_each(|(identity, acceleration, velocity, position)|
+        { **velocity += **acceleration * delta;
+          **position *= Translation2::from_vector(**velocity * delta); });
+
+    *last_update = Some(now);
   }
 }

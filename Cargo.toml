@@ -4,11 +4,20 @@ version = "0.1.0"
 authors = ["Jack Wrenn <me@jswrenn.com>"]
 
 [dependencies]
+rayon = "*"
+shrev = "*"
 specs = "*"
+specs-derive = "*"
 serde = "1.0"
 serde_json = "1.0"
 serde_derive = "1.0"
-ncollide="0.13"
+derive_more = "0.6.0"
+ncollide={git="https://github.com/sebcrozet/ncollide/", branch="send_sync"}
+elmesque="*"
+num-traits="*"
+piston="*"
+piston_window="*"
+
 
 [dependencies.nalgebra]
 version="0.13"
