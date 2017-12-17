@@ -61,8 +61,6 @@ fn main() {
           nalgebra::UnitComplex::new(0.))))
     .with(components::Velocity(nalgebra::Vector2::new(10., 10.)))
     .with(components::Acceleration(nalgebra::Vector2::new(0., 9.8)))
-    .with(components::Force(nalgebra::Vector2::new(0., 50.)))
-    .with(components::Mass(10.))
     .build();
 
   let mut dispatcher = DispatcherBuilder::new()
