@@ -32,9 +32,10 @@ impl<'a> System<'a> for Motion {
 
     (&identities, &masses, &forces, &mut accelerations, &mut velocities, &mut positions).par_join()
       .for_each(|(identity, mass, force, acceleration, velocity, position)|
-        { **acceleration = **force / **mass;
-          **velocity += **acceleration * delta;
-          **position *= Translation2::from_vector(**velocity * delta); });
+        { **velocity += 0.5 * delta * **acceleration;
+          **position *= Translation2::from_vector(**velocity * delta);
+          **acceleration = **force / **mass;
+          **velocity += 0.5 * delta * **acceleration; });
 
     *last_update = Some(now);
   }
