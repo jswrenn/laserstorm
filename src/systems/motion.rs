@@ -1,7 +1,9 @@
 use types::*;
 use components::*;
 use alga::general::Real;
+use alga::linear::Transformation;
 use specs::{FetchMut, System, Join, ParJoin, ReadStorage, WriteStorage};
+use nalgebra;
 use nalgebra::geometry::Point;
 use nalgebra::geometry::Translation2;
 use std::time::{Duration, Instant};
@@ -47,12 +49,12 @@ impl<'a> System<'a> for Motion {
                  , linear_velocity
                  , angular_velocity
                  , position )|
-        { **linear_velocity  += **linear_acceleration * delta_time;
-          **angular_velocity += **angular_acceleration * delta_time;
-          let rotation        = Rotation::from_scaled_axis(**angular_velocity * delta_time);
-          let translation     =   Translation::from_vector(**linear_velocity  * delta_time);
-          let p = Point::from_coordinates(position.translation.vector);
-          position.append_rotation_wrt_point_mut(&rotation, &p);
+        { **linear_velocity   += **linear_acceleration * delta_time;
+          **angular_velocity  += **angular_acceleration * delta_time;
+          let rotation         = Rotation::from_scaled_axis(**angular_velocity * delta_time);
+          let translation      =   Translation::from_vector(**linear_velocity  * delta_time);
+          let pivot = position.translation.transform_point(center_of_mass);
+          position.append_rotation_wrt_point_mut(&rotation, &pivot);
           position.append_translation_mut(&translation);
         });
     *last_update = Some(now);
