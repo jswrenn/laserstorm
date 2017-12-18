@@ -17,6 +17,10 @@ elmesque="*"
 num-traits="*"
 piston="*"
 piston_window="*"
+piston2d-graphics = "0.13.0"
+amethyst={git="https://github.com/amethyst/amethyst", branch="develop"}
+alga="*"
+num-complex="*"
 
 
 [dependencies.nalgebra]

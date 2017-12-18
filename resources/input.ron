@@ -1,0 +1,14 @@
+(
+    axes: {
+        "turn": (
+            pos: Key(A),
+            neg: Key(D),
+        ),
+        "accelerate": (
+            pos: Key(W),
+            neg: Key(S),
+        ),
+    },
+    actions: {
+    },
+)
