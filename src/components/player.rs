@@ -1,8 +1,5 @@
 use specs::{Component, VecStorage};
 
-#[derive(Clone, Copy, Debug, Serialize, Deserialize)]
-pub struct Player(usize);
-
-impl Component for Player {
-  type Storage = VecStorage<Self>;
-}
+#[derive(Component, Clone, Copy, Debug, Serialize, Deserialize)]
+#[component(VecStorage)]
+pub struct Player(pub usize);

@@ -2,72 +2,83 @@
 //!
 
 use std::mem;
+use types::*;
 use specs::*;
-use amethyst;
+use components;
 
+use std::rc::Rc;
+use std::cell::RefCell;
+use std::cell::RefMut;
+use kiss3d::window::Window;
+use alga::general::SubsetOf;
+use ncollide::shape;
+use nalgebra::convert;
+use alga::general::Real;
+use alga::linear::ProjectiveTransformation;
+use nalgebra::{self, Point2, Point3, Translation2};
+use ncollide::world::{CollisionWorld2, CollisionGroups};
+use nalgebra::geometry::{Isometry2, Isometry3};
+use nalgebra::core::Vector3;
+use ncollide::shape::{ShapeHandle, Ball, Ball2, Ball3, Cuboid2, Cone2, Cylinder2, Segment2, Triangle2};
+use ncollide::transformation::ToPolyline;
+use ncollide::transformation::ToTriMesh;
+use kiss3d::resource::Mesh;
+use ncollide::procedural::*;
+use kiss3d::scene::SceneNode;
+use std::collections::HashMap;
+use std::f32::consts::PI;
+use nalgebra::geometry::UnitQuaternion;
 
-use amethyst::core::Transform;
-use amethyst::renderer::*;
-
-
-pub struct RenderSystem {
-  render_system : amethyst::ecs::rendering::systems::RenderSystem
+pub struct Render<'w> {
+  target: Rc<RefCell<&'w mut Window>>,
 }
 
-impl<'a, 'b> amethyst::ecs::SystemExt<'a, (&'b EventsLoop, PipelineBuilder, Option<DisplayConfig>)>
-    for RenderSystem {
-    /// Create new `RenderSystem`
-    /// It creates window and do render into it
-    fn build(
-        (events, pipe, config): (&'b EventsLoop, PipelineBuilder, Option<DisplayConfig>),
-        world: &mut World,
-    ) -> Result<Self> {
-        amethyst::ecs::rendering::systems::RenderSystem::build((events, pipe, config))
-          .map(|result| RenderSystem{render_system:result});
+impl<'w> Render<'w> {
+  pub fn new(window : Rc<RefCell<&'w mut Window>>,) -> Render {
+    Render {
+      target: window
     }
+  }
+
+  fn draw_polyline(&mut self, polyline: &Polyline<Point2<f64>>) {
+    let mut window = self.target.borrow_mut();
+    for pt in polyline.coords().windows(2) {
+      window.draw_line(&Point3::new(pt[0].x as f32, pt[0].y as f32, 0.0), &Point3::new(pt[1].x as f32, pt[1].y as f32, 0.0), &Point3::new(0.0, 1.0, 0.0));
+    }
+
+    let last = polyline.coords().len() - 1;
+    window.draw_line(&Point3::new(polyline.coords()[0].x as f32, polyline.coords()[0].y as f32, 0.0),
+                     &Point3::new(polyline.coords()[last].x as f32, polyline.coords()[last].y as f32, 0.0),
+                     &Point3::new(0.0, 1.0, 0.0));
+  }
 }
 
-impl<'a> System<'a> for RenderSystem {
-    type SystemData = (Fetch<'a, Camera>,
-     Fetch<'a, Factory>,
-     Fetch<'a, AmbientColor>,
-     ReadStorage<'a, Transform>,
-     ReadStorage<'a, Light>,
-     ReadStorage<'a, Material>,
-     ReadStorage<'a, Mesh>);
+impl<'a, 'w> System<'a> for Render<'w> {
+  type SystemData =
+    ( Fetch<'a, CollisionWorld2<f64,()>>);
 
-    fn run(
-        &mut self,
-        (camera, factory, ambient_color, globals, lights, materials, meshes): Self::SystemData,
-    ) {
-        use std::time::Duration;
-
-        while let Some(job) = factory.jobs.try_pop() {
-            job.exec(&mut self.renderer.factory);
-        }
-
-        self.scene.clear();
-
-        for (mesh, material, global) in (&meshes, &materials, &globals).join() {
-            self.scene.add_model(Model {
-                material: material.0.clone(),
-                mesh: mesh.as_ref().clone(),
-                pos: global.0.into(),
-            });
-        }
-
-        self.scene.set_ambient_color(ambient_color.0.clone());
-
-        for light in lights.join() {
-            self.scene.add_light(light.0.clone());
-        }
-
-        self.scene.add_camera(camera.clone());
-
-        self.renderer.draw(
-            &self.scene,
-            &self.pipe,
-            Duration::from_secs(0),
-        );
+  fn run(&mut self, world: Self::SystemData) {
+    for object in world.collision_objects() {
+      let id = object.uid;
+      let position = object.position;
+      let shape = &object.shape;
+      let mut polyline =
+            shape.as_shape::<Ball2<f64>>().map(|s|    s.to_polyline(10))
+        .or(shape.as_shape::<Cone2<f64>>().map(|s|    s.to_polyline(())))
+        .or(shape.as_shape::<Cuboid2<f64>>().map(|s|  s.to_polyline(())))
+        .or(shape.as_shape::<Segment2<f64>>().map(|s| s.to_polyline(())))
+        .or(shape.as_shape::<Triangle2<f64>>().map(|s| s.to_polyline(()))).unwrap();
+      polyline.transform_by(&position);
+      self.draw_polyline(&polyline);
+      // todo: figure out what to do with 2d & compound shapes
+      //self.scene.entry(id).or_insert_with(|| {
+      //  let mut n = window.add_cone(0.01,0.1);
+      //  n.set_color(1.0, 0.0, 0.0);
+      //  n }).set_local_transformation(
+      //    convert(Isometry3::new(
+      //      Vector3::new(position.translation.vector.x,
+      //                   position.translation.vector.y, 0.),
+      //      position.rotation.angle() * Vector3::z_axis().to_superset())));
     }
+  }
 }

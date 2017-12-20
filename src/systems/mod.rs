@@ -1,9 +1,10 @@
 mod motion;
-mod amethyst_motion;
 mod collision;
+mod render;
 mod input;
-
-pub use self::input::Input;
+mod control;
+pub use self::render::Render;
 pub use self::motion::Motion;
-pub use self::amethyst_motion::AmethystMotion;
 pub use self::collision::Collision;
+pub use self::input::*;
+pub use self::control::*;

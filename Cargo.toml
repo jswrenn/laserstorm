@@ -21,7 +21,11 @@ piston2d-graphics = "0.13.0"
 amethyst={git="https://github.com/amethyst/amethyst", branch="develop"}
 alga="*"
 num-complex="*"
-
+time         = "0.1"
+num          = "0.1"
+rand         = "0.3"
+glfw="*"
+kiss3d ="*"
 
 [dependencies.nalgebra]
 version="0.13"

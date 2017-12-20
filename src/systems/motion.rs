@@ -8,7 +8,6 @@ use nalgebra::geometry::Point;
 use nalgebra::geometry::Translation2;
 use std::time::{Duration, Instant};
 use rayon::iter::ParallelIterator;
-use amethyst::core::cgmath::Vector3;
 use num_complex::Complex;
 
 pub struct Motion;
