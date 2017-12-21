@@ -3,9 +3,9 @@ use specs::*;
 use components::*;
 use nalgebra;
 
-pub struct Bounce;
+pub struct Resolution;
 
-impl<'a> System<'a> for Bounce {
+impl<'a> System<'a> for Resolution {
   type SystemData =
     ( FetchMut<'a, CollisionWorld>
     , Entities<'a>

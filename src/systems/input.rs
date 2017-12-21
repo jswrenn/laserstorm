@@ -1,4 +1,4 @@
-use components::*;
+use components;
 use events;
 use specs::*;
 use kiss3d::window::Window;
@@ -20,25 +20,27 @@ impl<'w> Input<'w> {
 
 impl<'a,'w> System<'a> for Input<'w> {
   type SystemData =
-    ( FetchMut<'a, events::ControlState> );
+    ( WriteStorage<'a, components::Control> );
 
-    fn run(&mut self, mut state: Self::SystemData) {
+    fn run(&mut self, mut control: Self::SystemData) {
       for event in self.target.borrow_mut().events().iter() {
-        if let WindowEvent::Key(code, _, Action::Press, _)  = event.value {
-          match code {
-            Key::W => {state.forward  = true;},
-            Key::S => {state.backward = true;},
-            Key::A => {state.left     = true;},
-            Key::D => {state.right    = true;},
-             _  => {}
-          }
-        } else if let WindowEvent::Key(code, _, Action::Release, _)  = event.value {
-          match code {
-            Key::W => {state.forward  = false;},
-            Key::S => {state.backward = false;},
-            Key::A => {state.left     = false;},
-            Key::D => {state.right    = false;},
-             _  => {}
+        for control in (&mut control).join() {
+          if let WindowEvent::Key(code, _, Action::Press, _)  = event.value {
+            match code {
+              Key::W => {control.forward  = true;},
+              Key::S => {control.backward = true;},
+              Key::A => {control.turn_left     = true;},
+              Key::D => {control.turn_right    = true;},
+               _  => {}
+            }
+          } else if let WindowEvent::Key(code, _, Action::Release, _)  = event.value {
+            match code {
+              Key::W => {control.forward  = false;},
+              Key::S => {control.backward = false;},
+              Key::A => {control.turn_left     = false;},
+              Key::D => {control.turn_right    = false;},
+               _  => {}
+            }
           }
         }
       }

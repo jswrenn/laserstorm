@@ -1,5 +1,6 @@
 use types::*;
 use specs::*;
+use components;
 use components::*;
 use events;
 use rayon::iter::ParallelIterator;
@@ -9,34 +10,32 @@ pub struct Control;
 
 impl<'a> System<'a> for Control {
   type SystemData =
-    ( Fetch<'a, events::ControlState>
-    , ReadStorage<'a,  Identity>
+    ( ReadStorage<'a,  components::Control>
     , WriteStorage<'a, Position>
     , WriteStorage<'a, LinearVelocity>
     , WriteStorage<'a, AngularVelocity>);
 
-  fn run(&mut self, ( state
-                    , identities
+  fn run(&mut self, ( controls
                     , mut positions
                     , mut linear_velocities
                     , mut angular_velocities ) : Self::SystemData)
   {
-    ( &identities
+    ( &controls
     , &mut positions
     , &mut linear_velocities
     , &mut angular_velocities ).par_join()
-      .for_each(|( identity
+      .for_each(|( control
                  , position
                  , linear_velocity
                  , angular_velocity )|
-        { if state.forward {
+        { if control.forward {
             **linear_velocity = position.rotation.rotate_vector(&Vector::new(0.0, 0.5));
-          } else if state.backward {
+          } else if control.backward {
             **linear_velocity = position.rotation.rotate_vector(&Vector::new(0.0, -0.5));
-          } else { **linear_velocity = Vector::new(0.0, 0.0); }
-          if state.left {
+          }
+          if control.turn_left {
             **angular_velocity -= Orientation::new(0.1);
-          } else if state.right {
+          } else if control.turn_right {
             **angular_velocity += Orientation::new(0.1);
           } else { **angular_velocity = Orientation::new(0.) }
         });

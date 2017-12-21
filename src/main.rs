@@ -49,6 +49,7 @@ fn main() {
   world.register::<components::Mass>();
   world.register::<components::Identity>();
   world.register::<components::Shape>();
+  world.register::<components::Control>();
 
   let mut window = kiss3d::window::Window::new("nphysics: 3d demo");
   window.set_light(kiss3d::light::Light::StickToCamera);
@@ -84,19 +85,20 @@ fn main() {
         nalgebra::Isometry::from_parts(
           nalgebra::Translation2::from_vector(Vector::new(0., 0.)),
           nalgebra::UnitComplex::new(0.001))))
-    .with(components::LinearVelocity(Vector::new(1., 1. )))
+    .with(components::LinearVelocity(Vector::new(0., 0. )))
     .with(components::AngularVelocity(Orientation::new(0.)))
-    .with(components::LinearAcceleration(Vector::new(0., -1.)))
+    .with(components::LinearAcceleration(Vector::new(0., 0.)))
     .with(components::AngularAcceleration(nalgebra::zero()))
     .with(components::CenterOfMass(nalgebra::origin()))
     .with(components::Shape(ShapeHandle::new(Ball2::new(0.05f32))))
+    .with(components::Control::default())
     .build();
 
   let mut dispatcher = DispatcherBuilder::new()
     .add(systems::Motion, "motion", &[])
     .add(systems::Control, "control", &[])
     .add(systems::Collision, "collision", &["motion"])
-    .add(systems::Bounce, "bounce", &["collision"])
+    .add(systems::Resolution, "resolution", &["collision"])
     .add_thread_local(systems::Render::new(window_wrapper.clone()))
     .add_thread_local(systems::Input::new(window_wrapper.clone()))
     .build();
