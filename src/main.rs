@@ -1,4 +1,4 @@
-#![allow(unused_imports)]
+//#![allow(unused_imports)]
 #![allow(unused_variables)]
 #![allow(dead_code)]
 
@@ -23,24 +23,15 @@ mod types;
 use types::*;
 
 mod events;
-use events::*;
-
 mod components;
-use components::*;
-
 mod systems;
-use systems::Motion;
 
-use ncollide::world::{CollisionWorld2,CollisionGroups, GeometricQueryType};
-use specs::DispatcherBuilder;
-use specs::Join;
+use specs::*;
 use std::time::Instant;
-use std::sync::*;
 use std::cell::*;
 use std::rc::*;
-use std::collections::HashMap;
-use ncollide::shape::ShapeHandle2;
 use ncollide::shape::Cone2;
+use ncollide::shape::Ball2;
 
 use kiss3d::scene::SceneNode;
 fn main() {
@@ -64,27 +55,48 @@ fn main() {
   let window_wrapper = Rc::new(RefCell::new(&mut window));
 
   world.add_resource(None::<Instant>);
-  world.add_resource(ControlState::default());
-  world.add_resource(CollisionWorld2::<f64,()>::new(0.02, true));
+  world.add_resource(events::ControlState::default());
+  world.add_resource(CollisionWorld::new(0.02, true));
 
+  use ncollide::shape::Plane;
+
+  // Create four planes to bound the world
   world.create_entity()
-    .with(Identity(0))
+    .with(components::Position(Isometry::new(Vector::new(-1.0, 0.0), nalgebra::zero())))
+    .with(components::Shape(ShapeHandle::new(Plane::new(Vector::x()))))
+    .build();
+  world.create_entity()
+    .with(components::Position(Isometry::new(Vector::new(0.0, -1.0), nalgebra::zero())))
+    .with(components::Shape(ShapeHandle::new(Plane::new(Vector::y()))))
+    .build();
+  world.create_entity()
+    .with(components::Position(Isometry::new(Vector::new(1.0, 0.0), nalgebra::zero())))
+    .with(components::Shape(ShapeHandle::new(Plane::new(-Vector::x()))))
+    .build();
+  world.create_entity()
+    .with(components::Position(Isometry::new(Vector::new(0.0, 1.0), nalgebra::zero())))
+    .with(components::Shape(ShapeHandle::new(Plane::new(-Vector::y()))))
+    .build();
+
+  // Create a ball
+  world.create_entity()
     .with(components::Position(
         nalgebra::Isometry::from_parts(
           nalgebra::Translation2::from_vector(Vector::new(0., 0.)),
           nalgebra::UnitComplex::new(0.001))))
-    .with(components::LinearVelocity(Vector::new(0., 0.)))
+    .with(components::LinearVelocity(Vector::new(1., 1. )))
     .with(components::AngularVelocity(Orientation::new(0.)))
-    .with(components::LinearAcceleration(nalgebra::zero()))
+    .with(components::LinearAcceleration(Vector::new(0., -1.)))
     .with(components::AngularAcceleration(nalgebra::zero()))
     .with(components::CenterOfMass(nalgebra::origin()))
-    .with(components::Shape(ShapeHandle2::new(Cone2::new(0.05, 0.01))))
+    .with(components::Shape(ShapeHandle::new(Ball2::new(0.05f32))))
     .build();
 
   let mut dispatcher = DispatcherBuilder::new()
     .add(systems::Motion, "motion", &[])
     .add(systems::Control, "control", &[])
     .add(systems::Collision, "collision", &["motion"])
+    .add(systems::Bounce, "bounce", &["collision"])
     .add_thread_local(systems::Render::new(window_wrapper.clone()))
     .add_thread_local(systems::Input::new(window_wrapper.clone()))
     .build();

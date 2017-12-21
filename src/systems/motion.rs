@@ -1,14 +1,10 @@
 use types::*;
 use components::*;
+use specs::*;
 use alga::general::Real;
 use alga::linear::Transformation;
-use specs::{FetchMut, System, Join, ParJoin, ReadStorage, WriteStorage};
-use nalgebra;
-use nalgebra::geometry::Point;
-use nalgebra::geometry::Translation2;
-use std::time::{Duration, Instant};
+use std::time::Instant;
 use rayon::iter::ParallelIterator;
-use num_complex::Complex;
 
 pub struct Motion;
 
@@ -33,7 +29,7 @@ impl<'a> System<'a> for Motion {
     let now   = Instant::now();
     let delta_time = last_update.map(|time|
       { let duration = now.duration_since(time);
-        duration.as_secs() as f64 + duration.subsec_nanos() as f64 * 1e-9
+        duration.as_secs() as Precision + duration.subsec_nanos() as Precision * 1e-9
       }).unwrap_or(0.);
 
     ( &center_of_mass

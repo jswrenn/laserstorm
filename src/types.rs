@@ -1,22 +1,20 @@
-use nalgebra::{Point2, Vector1, Vector2, Matrix1, UnitComplex, Translation2, Isometry2};
+use nalgebra;
+use ncollide;
+use specs;
+use nalgebra::core::dimension;
 
-/// The point type.
-pub type Point<N> = Point2<N>;
+pub type Precision = f32;
+pub type Dimension = dimension::U2;
+pub type Data      = specs::Entity;
 
-/// The vector type.
-pub type Vector<N> = Vector2<N>;
-
-/// The orientation type.
-pub type Orientation<N> = Vector1<N>;
-
-/// The transformation matrix type.
-pub type Isometry<N> = Isometry2<N>;
-
-/// The rotation matrix type.
-pub type Rotation<N> = UnitComplex<N>;
-
-/// The translation type.
-pub type Translation<N> = Translation2<N>;
-
-/// The inertia tensor type.
-pub type AngularInertia<N> = Matrix1<N>;
+pub type Point           = nalgebra::Point<Precision, Dimension>;
+pub type Vector          = nalgebra::VectorN<Precision,Dimension>;
+pub type Orientation     = nalgebra::VectorN<Precision, <Dimension as nalgebra::DimSub<dimension::U1>>::Output>;
+pub type Isometry        = nalgebra::Isometry<Precision, Dimension, Rotation>;
+pub type Rotation        = nalgebra::UnitComplex<Precision>;
+pub type Translation     = nalgebra::Translation<Precision, Dimension>;
+pub type AngularInertia  = nalgebra::Matrix1<Precision>;
+pub type CollisionWorld  = ncollide::world::CollisionWorld<Point, Isometry, Data>;
+pub type CollisionObject = ncollide::world::CollisionObject<Point, Isometry, Data>;
+pub type Contact         = ncollide::query::Contact<Point>;
+pub type ShapeHandle     = ncollide::shape::ShapeHandle<Point, Isometry>;

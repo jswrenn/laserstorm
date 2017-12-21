@@ -1,31 +1,30 @@
-use ::components::{Identity, Position, Shape};
-use specs::{FetchMut, System, Join, ReadStorage};
-use ncollide::world::CollisionWorld2;
+use types::*;
+use specs::*;
+use components::*;
 use ncollide::world::CollisionGroups;
 use ncollide::world::GeometricQueryType;
-use ncollide::shape::ShapeHandle;
 
 pub struct Collision;
 
 impl<'a> System<'a> for Collision {
   type SystemData =
-    ( FetchMut<'a, CollisionWorld2<f64,()>>
-    , ReadStorage<'a, Identity>
+    ( FetchMut<'a, CollisionWorld>
+    , Entities<'a>
     , ReadStorage<'a, Position>
     , ReadStorage<'a, Shape>);
 
-  fn run(&mut self, (mut world, identities, positions, shapes) : Self::SystemData) {
-    for (identity, position, shape) in (&identities, &positions, &shapes).join() {
-      if let None = world.collision_object(**identity) {
+  fn run(&mut self, (mut world, entities, positions, shapes) : Self::SystemData) {
+    for (entity, position, shape) in (&*entities, &positions, &shapes).join() {
+      if let None = world.collision_object(entity.id() as usize) {
         world.deferred_add(
-          **identity,
+          entity.id() as usize,
           **position,
           shape.0.clone(),
           CollisionGroups::new(),
           GeometricQueryType::Contacts(0.0),
-          ());
+          entity);
       }
-      world.deferred_set_position(**identity, **position);
+      world.deferred_set_position(entity.id() as usize, **position);
     }
     world.update();
   }

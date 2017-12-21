@@ -1,19 +1,19 @@
-use types::Point;
-use specs::{Component, VecStorage};
+use types::*;
+use specs::*;
 
 #[derive(Component, Clone, Debug)]
 #[component(VecStorage)]
-pub struct CenterOfMass(pub Point<f64>);
+pub struct CenterOfMass(pub Point);
 
 impl ::std::ops::Deref for CenterOfMass {
-  type Target = Point<f64>;
-  fn deref(&self) -> &Point<f64> {
+  type Target = Point;
+  fn deref(&self) -> &Point {
     &self.0
   }
 }
 
 impl ::std::ops::DerefMut for CenterOfMass {
-  fn deref_mut(&mut self) -> &mut Point<f64> {
+  fn deref_mut(&mut self) -> &mut Point {
     &mut self.0
   }
 }

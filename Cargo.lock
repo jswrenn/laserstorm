@@ -1,4 +1,15 @@
 [[package]]
+name = "acacia"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "itertools 0.5.10 (registry+https://github.com/rust-lang/crates.io-index)",
+ "nalgebra 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "num 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rand 0.3.18 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "adler32"
 version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1017,6 +1028,7 @@ dependencies = [
 name = "laserstorm"
 version = "0.1.0"
 dependencies = [
+ "acacia 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "alga 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "amethyst 0.5.1 (git+https://github.com/amethyst/amethyst?branch=develop)",
  "derive_more 0.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1024,7 +1036,7 @@ dependencies = [
  "glfw 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "kiss3d 0.12.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "nalgebra 0.13.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "ncollide 0.13.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
+ "ncollide 0.13.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
  "num 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",
  "num-complex 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",
  "num-traits 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1164,6 +1176,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "nalgebra"
+version = "0.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "num 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rand 0.3.18 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rustc-serialize 0.3.24 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "nalgebra"
 version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
@@ -1182,26 +1204,26 @@ dependencies = [
 [[package]]
 name = "ncollide"
 version = "0.13.0"
-source = "git+https://github.com/sebcrozet/ncollide/?branch=send_sync#73449839a13db9f0ddb303ee48b1177309c906e6"
+source = "git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal#b7108b70edc55d6e7d36edd6d5a094e7dcf7f933"
 dependencies = [
- "ncollide_geometry 0.5.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
- "ncollide_math 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
- "ncollide_pipeline 0.12.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
- "ncollide_procedural 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
- "ncollide_transformation 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
- "ncollide_utils 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
+ "ncollide_geometry 0.5.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
+ "ncollide_math 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
+ "ncollide_pipeline 0.12.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
+ "ncollide_procedural 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
+ "ncollide_transformation 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
+ "ncollide_utils 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
 ]
 
 [[package]]
 name = "ncollide_geometry"
 version = "0.5.0"
-source = "git+https://github.com/sebcrozet/ncollide/?branch=send_sync#73449839a13db9f0ddb303ee48b1177309c906e6"
+source = "git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal#b7108b70edc55d6e7d36edd6d5a094e7dcf7f933"
 dependencies = [
  "alga 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "approx 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "nalgebra 0.13.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "ncollide_math 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
- "ncollide_utils 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
+ "ncollide_math 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
+ "ncollide_utils 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
  "num-traits 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc-serialize 0.3.24 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -1209,7 +1231,7 @@ dependencies = [
 [[package]]
 name = "ncollide_math"
 version = "0.8.0"
-source = "git+https://github.com/sebcrozet/ncollide/?branch=send_sync#73449839a13db9f0ddb303ee48b1177309c906e6"
+source = "git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal#b7108b70edc55d6e7d36edd6d5a094e7dcf7f933"
 dependencies = [
  "alga 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "approx 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1235,25 +1257,25 @@ dependencies = [
 [[package]]
 name = "ncollide_pipeline"
 version = "0.12.0"
-source = "git+https://github.com/sebcrozet/ncollide/?branch=send_sync#73449839a13db9f0ddb303ee48b1177309c906e6"
+source = "git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal#b7108b70edc55d6e7d36edd6d5a094e7dcf7f933"
 dependencies = [
  "alga 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "nalgebra 0.13.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "ncollide_geometry 0.5.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
- "ncollide_math 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
- "ncollide_utils 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
+ "ncollide_geometry 0.5.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
+ "ncollide_math 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
+ "ncollide_utils 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
  "rustc-serialize 0.3.24 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "ncollide_procedural"
 version = "0.8.0"
-source = "git+https://github.com/sebcrozet/ncollide/?branch=send_sync#73449839a13db9f0ddb303ee48b1177309c906e6"
+source = "git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal#b7108b70edc55d6e7d36edd6d5a094e7dcf7f933"
 dependencies = [
  "alga 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "nalgebra 0.13.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "ncollide_math 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
- "ncollide_utils 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
+ "ncollide_math 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
+ "ncollide_utils 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
  "num-traits 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc-serialize 0.3.24 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -1274,15 +1296,15 @@ dependencies = [
 [[package]]
 name = "ncollide_transformation"
 version = "0.8.0"
-source = "git+https://github.com/sebcrozet/ncollide/?branch=send_sync#73449839a13db9f0ddb303ee48b1177309c906e6"
+source = "git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal#b7108b70edc55d6e7d36edd6d5a094e7dcf7f933"
 dependencies = [
  "alga 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "approx 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "nalgebra 0.13.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "ncollide_geometry 0.5.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
- "ncollide_math 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
- "ncollide_procedural 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
- "ncollide_utils 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
+ "ncollide_geometry 0.5.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
+ "ncollide_math 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
+ "ncollide_procedural 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
+ "ncollide_utils 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
  "num-traits 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc-serialize 0.3.24 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -1290,12 +1312,12 @@ dependencies = [
 [[package]]
 name = "ncollide_utils"
 version = "0.8.0"
-source = "git+https://github.com/sebcrozet/ncollide/?branch=send_sync#73449839a13db9f0ddb303ee48b1177309c906e6"
+source = "git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal#b7108b70edc55d6e7d36edd6d5a094e7dcf7f933"
 dependencies = [
  "alga 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "approx 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "nalgebra 0.13.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "ncollide_math 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)",
+ "ncollide_math 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)",
  "num-traits 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand 0.3.18 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc-serialize 0.3.24 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2404,6 +2426,7 @@ dependencies = [
 ]
 
 [metadata]
+"checksum acacia 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)" = "aca28cf37a45186a23494f27a57c5bed3bd3c5d2a50e1e1525e10412af1120e2"
 "checksum adler32 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)" = "6cbd0b9af8587c72beadc9f72d35b9fbb070982c9e6203e46e93f10df25f8f45"
 "checksum aho-corasick 0.5.3 (registry+https://github.com/rust-lang/crates.io-index)" = "ca972c2ea5f742bfce5687b9aef75506a764f61d37f8f649047846a9686ddb66"
 "checksum alga 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)" = "9a9749cf5cfdca30ac35de67358fb24e2d26a88e2819ee83efb794a09f0b421b"
@@ -2527,16 +2550,17 @@ dependencies = [
 "checksum miniz-sys 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)" = "609ce024854aeb19a0ef7567d348aaa5a746b32fb72e336df7fcc16869d7e2b4"
 "checksum mint 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)" = "9bff0e0f087fb336a1a4c10415456b64d69ed736d73d0d25a7e1b3584794277c"
 "checksum mopa 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "a785740271256c230f57462d3b83e52f998433a7062fc18f96d5999474a9f915"
+"checksum nalgebra 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)" = "f754f64bd1a5f5899285c2e182df7ddebcecf466369663be2277ca01b6da5d5d"
 "checksum nalgebra 0.13.1 (registry+https://github.com/rust-lang/crates.io-index)" = "c8516d8710f28c64cfc75b274c75c55c967ad4ece7090521b3c065de1d12336b"
-"checksum ncollide 0.13.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)" = "<none>"
-"checksum ncollide_geometry 0.5.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)" = "<none>"
-"checksum ncollide_math 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)" = "<none>"
+"checksum ncollide 0.13.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)" = "<none>"
+"checksum ncollide_geometry 0.5.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)" = "<none>"
+"checksum ncollide_math 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)" = "<none>"
 "checksum ncollide_math 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)" = "64b88168c4ddad2e1123299bfb529c4de73383520caf45ccb5a9c9129fdcbe3d"
-"checksum ncollide_pipeline 0.12.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)" = "<none>"
-"checksum ncollide_procedural 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)" = "<none>"
+"checksum ncollide_pipeline 0.12.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)" = "<none>"
+"checksum ncollide_procedural 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)" = "<none>"
 "checksum ncollide_procedural 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)" = "63441d1763a6880894ccf2f5d9c81545ee426538119c6e6dc0768c8c8ab325a1"
-"checksum ncollide_transformation 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)" = "<none>"
-"checksum ncollide_utils 0.8.0 (git+https://github.com/sebcrozet/ncollide/?branch=send_sync)" = "<none>"
+"checksum ncollide_transformation 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)" = "<none>"
+"checksum ncollide_utils 0.8.0 (git+https://github.com/thiolliere/ncollide/?branch=send_sync_removal)" = "<none>"
 "checksum ncollide_utils 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)" = "2b0bf88903f5ee3f6e1c2a86e3aaff81d8fb4315ee4ccb52ff70cdd0fdbf0425"
 "checksum nodrop 0.1.12 (registry+https://github.com/rust-lang/crates.io-index)" = "9a2228dca57108069a5262f2ed8bd2e82496d2e074a06d1ccc7ce1687b6ae0a2"
 "checksum nom 1.2.4 (registry+https://github.com/rust-lang/crates.io-index)" = "a5b8c256fd9471521bcb84c3cdba98921497f1a331cbc15b8030fc63b82050ce"

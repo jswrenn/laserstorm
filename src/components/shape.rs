@@ -1,20 +1,19 @@
 use types::*;
-use ncollide::shape::ShapeHandle2;
-use specs::{Component, VecStorage};
+use specs::*;
 
 #[derive(Component, Clone)]
 #[component(VecStorage)]
-pub struct Shape(pub ShapeHandle2<f64>);
+pub struct Shape(pub ShapeHandle);
 
 impl ::std::ops::Deref for Shape {
-  type Target = ShapeHandle2<f64>;
-  fn deref(&self) -> &ShapeHandle2<f64> {
+  type Target = ShapeHandle;
+  fn deref(&self) -> &ShapeHandle {
     &self.0
   }
 }
 
 impl ::std::ops::DerefMut for Shape {
-  fn deref_mut(&mut self) -> &mut ShapeHandle2<f64> {
+  fn deref_mut(&mut self) -> &mut ShapeHandle {
     &mut self.0
   }
 }

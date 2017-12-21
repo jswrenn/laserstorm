@@ -1,18 +1,19 @@
-use specs::{Component, VecStorage};
+use types::*;
+use specs::*;
 
 #[derive(Component, Clone, Debug)]
 #[component(VecStorage)]
-pub struct Mass(pub f64);
+pub struct Mass(pub Precision);
 
 impl ::std::ops::Deref for Mass {
-  type Target = f64;
-  fn deref(&self) -> &f64 {
+  type Target = Precision;
+  fn deref(&self) -> &Precision {
     &self.0
   }
 }
 
 impl ::std::ops::DerefMut for Mass {
-  fn deref_mut(&mut self) -> &mut f64 {
+  fn deref_mut(&mut self) -> &mut Precision {
     &mut self.0
   }
 }

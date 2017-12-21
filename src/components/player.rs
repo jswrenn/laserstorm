@@ -1,4 +1,5 @@
-use specs::{Component, VecStorage};
+use types::*;
+use specs::*;
 
 #[derive(Component, Clone, Copy, Debug, Serialize, Deserialize)]
 #[component(VecStorage)]
